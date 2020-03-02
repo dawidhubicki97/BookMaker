@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+	
+
+</head>
+<div class="cats">
+<div class="list-group list-group-mine">
+<a href="{% url 'category' 11 %}" class="list-group-item" style="background-color:#f0ad4e;">Pilka Nozna</a>
+<a href="{% url 'category' 12 %}" class="list-group-item" style="background-color:#f0ad4e;">Żużel</a>
+<a href="{% url 'category' 13 %}" class="list-group-item"style="background-color:#f0ad4e;">Koszykowka</a>
+<a href="{% url 'category' 14 %}" class="list-group-item"style="background-color:#f0ad4e;">Hokej</a>
+<a href="{% url 'category' 15 %}" class="list-group-item"style="background-color:#f0ad4e;">Boks</a>
+<a href="{% url 'category' 16 %}" class="list-group-item"style="background-color:#f0ad4e;">Piłka Ręczna</a>
+
+</div>
+</div>
+<div class="main">
+	<table>
+		<tr>
+			<th colspan="2">
+				Zakład
+			</th>
+			<th>
+				Data
+			</th>
+			<th>
+				1
+			</th>
+			<th>
+				x
+			</th>
+			<th>
+				2
+			</th>
+			<th>
+				Obstaw
+			</th>
+		</tr>
+	{% for bet in bets %}
+		<tr>
+		<td>{{bet.bet_id}}</td><td> {{bet.teama}} - {{bet.teamb}}</td><td> {{bet.game_date|date:"d-m-Y"}}</td><td> {{bet.oddsa}}</td><td> {{bet.oddsx}}</td><td> {{bet.oddsb}}</td> </td>
+		<td><a href="{% url 'add_to_cart' bet.bet_id %}" class="btn btn-warning">Dodaj do kuponu</a></td>
+		</tr>
+
+
+	{% endfor %}
+	</table>
+</div>
+<div class="ticket">
+	<b>Kupon:</b><br>
+		<form id="couponForm" action="{%url 'addcoupon' %}" method="post">
+			{% csrf_token %}
+			<table>
+		{% for cartitem in cart %}
+		<tr>
+				
+					<td>{{cartitem.teama}} - </td>  <td>{{cartitem.teamb}} </td><td>  
+				Typ: <select name="{{cartitem.bet_id}}" form="couponForm">
+  						<option value="1">{{cartitem.teama}} {{cartitem.oddsa}}</option>
+ 						<option value="2">{{cartitem.teamb}} {{cartitem.oddsb}}</option>
+ 						<option value="x">Remis {{cartitem.oddsx}}</option>
+					</select>
+				</td>
+		</tr>
+		{% endfor %}
+		</table>
+				<br>
+				Stawka: <input id="stake" type="number" step="any" name="stake" ><br>
+				 <input class="btn btn-warning" type="submit" value="OK">
+		</form>
+		{% for message in messages %}
+		  {{ message }}
+    {% endfor %}
+</div>
+    <br>
+		
+
+
+{%endblock content%}

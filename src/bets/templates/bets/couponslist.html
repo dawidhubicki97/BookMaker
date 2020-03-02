@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<head>
+	
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+
+	<script>
+		function showdetails(id){
+			var ele = document.getElementById(id); 
+			ele.style.display = "table"; 
+		}
+
+	</script>
+
+</head>
+<div class="content">
+	<table class="table">
+		<thead>
+		<tr>
+			<th>
+				Kupon
+			</th>
+			<th>
+				Status
+			</th>
+			<th>
+				Wygrana
+			</th>
+			<th>
+				Szczegóły
+			</th>
+		</tr>
+	</thead>
+			{% for couponitem in coupons %}
+			<tr style="border-top: 4px double #f0ad4e;">
+				<td>
+				{{couponitem.coupon_id}}
+				</td>
+				
+				<td>
+			{%  if couponitem.status  %}
+					<span style="color:green;"><b>Wygrany</b></span>
+				{% elif couponitem.status is None %}
+					<span style="color:#f0ad4e;"><b>W trakcie</b></span>
+				{% else %}
+					<span style="color:red;"><b>Przegrana</b></span>
+			{% endif %}
+			</td>
+				<td>{{couponitem.stake}}</td>
+				<td>
+					<span onClick="showdetails({{couponitem.coupon_id}})">Pokaż</span>
+				</td>
+			</tr>
+				<tr>
+					<td colspan="4">
+				<table class="details" id="{{couponitem.coupon_id}}">
+				<tr>
+					<th width="38%">
+						Mecz
+					</th>
+					<th width="15%">
+						Typ
+					</th>
+					<th>
+						Wynik
+					</th>
+					</tr>
+				{%for placedbets in couponitem.placedbets.all%}
+					<tr>
+					{%for bets in placedbets.bet_id.all%}
+					<td>
+						{{bets.teama}}
+						{{bets.teamb}}
+					</td>
+					{% endfor %}
+					<td>
+					{{placedbets.pick}}
+					</td>
+					<td>
+					{%  if placedbets.is_won  %}
+					<span style="color:green;"><b>Wygrany</b></span>
+					{% elif placedbets.is_won is None %}
+					<span style="color:#f0ad4e;"><b>W trakcie</b></span>
+					{% else %}
+					<span style="color:red;"><b>Przegrana</b></span>
+					{% endif %}
+					</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</td>
+		</tr>
+		{% endfor %}
+		
+	</table>
+{%endblock content%}
+</div>
+</body>

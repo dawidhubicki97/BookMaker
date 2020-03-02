@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+	<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+	<script src="jquery-3.3.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+</head>
+<body>
+		<div class="header">
+	<nav class="navbar navbar-expand-sm ">
+  <!-- Brand -->
+  <a class="navbar-brand" href="{% url 'home' %}">Strona Główna</a>
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'coupons' %}">Kupony Uzytkownika</a>
+    </li>
+    {%  if request.user.is_superuser  %}
+    <li class="nav-item">
+
+      <a class="nav-link" href="{% url 'addbet' %}">Dodaj zaklad</a>
+
+    </li>
+{% endif %}
+ {%  if request.user.is_superuser  %}
+    <li class="nav-item">
+
+      <a class="nav-link" href="{% url 'betscores' %}">Uzupelnij wyniki</a>
+      
+    </li>
+{% endif %}
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        {{request.user.username}}
+      </a>
+      <div class="dropdown-content">
+       
+        <p class="dropdown-item" href="#">Saldo: {{request.user.customer.money}}</p>
+
+       
+        {% if request.user.is_superuser %}
+        <a class="dropdown-item" href="{% url 'pdf' %}">Generuj pdf</a>
+        {%endif%}
+        <a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+	
+	</div>
+	
+	 {% block content %}
+   {% endblock %}
+	
+</body>
+</html>

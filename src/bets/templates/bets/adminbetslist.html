@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{%block content%}
+<head>
+	
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+
+</head>
+<body>
+	<div class="content">
+		<table>
+			<tr>
+				<th>
+					Nr
+				</th>
+				<th colspan="2">
+					Drużyny
+				</th>
+				<th>
+					Data
+				</th>
+				<th colspan="3">
+					Kurs
+				</th>
+				<th>
+					Wyniki
+				</th>
+			</tr>
+		{% for bet in bets %}
+				<tr>
+				<td>{{bet.bet_id}}</td><td> {{bet.teama}}</td><td>{{bet.teamb}}</td><td>{{bet.game_date}}</td><td> 1: {{bet.oddsa}}</td><td> x: {{bet.oddsx}} </td><td> 2: {{bet.oddsb}}</td><td style="text-align: right!important;">
+
+				<form id="scoreForm" action="{%url 'enterscore' bet.bet_id %}" method="post">
+					{% csrf_token %}
+				Select: <select name="{{bet.bet_id}}" form="scoreForm">
+								<option value="1">{{bet.teama}}</option>
+								<option value="2">{{bet.teamb}}</option>
+								<option value="x">Remis</option>
+							</select>
+						<input class="btn btn-warning" type="submit" value="OK">
+				</form>	
+				</td>		
+				</tr>
+			{% endfor %}
+			{%endblock content%}
+		</table>
+	</div>
+</body>

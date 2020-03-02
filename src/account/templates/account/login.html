@@ -1,0 +1,44 @@
+{% load crispy_forms_tags%}
+<head>
+	
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<div class="login">
+  <h1>Zakłady bukmacherskie</h1>
+</div>
+<hr>
+<div class="content">
+<button type="button" class="btn btn-warning">
+
+</button>  
+<hr>
+    <div class="login-form">
+    <form method="post">
+        {% csrf_token %}
+        <h2 class="text-center">Logowanie</h2>       
+        <div class="form-group">
+            {{login_form.username|as_crispy_field}}
+        </div>
+        <div class="form-group">
+           {{login_form.password|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Zaloguj</button>
+        </div>
+       <p class="text-center"><a href="{% url 'register' %}" style="color:blue !important;">Zarejestruj się</a></p>
+         {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+    </form>
+   
+</div>
+  </form>
+  
+</div>
+</body>

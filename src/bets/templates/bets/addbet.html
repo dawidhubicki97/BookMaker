@@ -1,0 +1,49 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{%block content%}
+
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+ 
+<body>
+  <div class="content">
+
+       <div class="login-form">
+    <form method="post">
+        {% csrf_token %}
+        <h2 class="text-center">Dodaj Zaklad</h2>       
+        <div class="form-group">
+            {{ bet_form.category|as_crispy_field }}
+        </div>
+        <div class="form-group">
+           {{ bet_form.teama|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ bet_form.teamb|as_crispy_field }}
+        </div>
+        <div class="form-group">
+          {{ bet_form.oddsa|as_crispy_field }}
+        
+        <div class="form-group">
+          {{ bet_form.oddsb|as_crispy_field }}
+        </div>
+        <div class="form-group">
+          {{ bet_form.oddsx|as_crispy_field }}
+        </div>
+        <div class="form-group">
+          {{ bet_form.game_date|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Dodaj Zaklad</button>
+        </div>
+      {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+    </form>
+</div>
+  </div>
+</body>
+
+{%endblock content%}
